@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyWidget(title: 'Hello Flutter'));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key, required this.title});
+  final String title;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,10 +30,15 @@ class HomePage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        iconSize: 28,
+        selectedFontSize: 16,
+        unselectedFontSize: 14,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.white), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.white), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.add, color: Colors.white), label: 'Add'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
         ],
       ),
     );
