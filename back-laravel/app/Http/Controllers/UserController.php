@@ -45,4 +45,11 @@ class UserController extends Controller
         $user = $this->userService->deleteUser($id);
         return response()->json($user);
     }
+
+    public function login(Request $request)
+    {
+        $data = $request->all();
+        $user = $this->userService->login($data);
+        return response()->json($user);
+    }
 }

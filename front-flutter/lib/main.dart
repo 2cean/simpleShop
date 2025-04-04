@@ -1,44 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:front_flutter/pages/login_page.dart';
+import 'package:front_flutter/pages/add_page.dart';
+import 'package:front_flutter/pages/home_page.dart';
 
 void main() {
-  runApp(MyWidget(title: 'Hello Flutter'));
+  runApp(const MyApp());
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key, required this.title});
-  final String title;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: const MainPage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = const [
+    HomePageContent(),
+    LoginPage(),
+    AddPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text('Flutter+Laravel', style: TextStyle(color: Colors.white)),
+        title: const Text('Flutter+Laravel', style: TextStyle(color: Colors.white)),
       ),
-      body: ListView(
-        children: [
-          Text('Home'),
-        ],
-      ),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         backgroundColor: Colors.blueGrey,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
         iconSize: 28,
         selectedFontSize: 16,
         unselectedFontSize: 14,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '로그인'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: '글쓰기'),
         ],
       ),
     );
