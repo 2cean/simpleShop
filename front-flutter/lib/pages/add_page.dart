@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:front_flutter/main.dart';
+import '../constants/api.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -6,8 +9,20 @@ class AddPage extends StatefulWidget {
   State<AddPage> createState() => _AddPageState();
 }
 
+Future<void> addBoard(String title, String content) async {
+  final dio = Dio();
+  final response = await dio.post('$baseApi/boards', data: {
+    'title': title,
+    'content': content,
+  });
+  print(response.data);
+}
+
 class _AddPageState extends State<AddPage> {
+
   final formkey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +44,7 @@ class _AddPageState extends State<AddPage> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueGrey),
               ),
               TextFormField(
+                controller: titleController,
                 decoration: InputDecoration(
                   hintText: '제목을 입력해주세요',
                   border: OutlineInputBorder(
@@ -42,6 +58,7 @@ class _AddPageState extends State<AddPage> {
                 ),
               ),
               TextFormField(
+                controller: contentController,
                 maxLines: 8,
                 decoration: InputDecoration(
                   hintText: '내용을 입력해주세요',
@@ -71,7 +88,10 @@ class _AddPageState extends State<AddPage> {
                     child: const Text('리셋', style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      addBoard(titleController.text, contentController.text);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.white,
